@@ -1,24 +1,26 @@
-const db = require("../connect/connection");
+const QueryHandler = require("./queryHandler");
 
-async function DeleteAFeedback(feedbackId) {
-    let conn;
-    let success = true;
-    let result = null;
-    try {
-        // TODO: vérifier l'intégrité de l'objet feedback
-        conn = await db.pool.getConnection();
-        const deleteQuery = "DELETE FROM feedback WHERE id = ?";
-        result = await conn.query(deleteQuery, [feedbackId]);
+/**
+ * Supprime un commentaire par son id
+ * @param {number} feedbackid l'id du commentaire à supprimer
+ * @return {Promise<boolean>} true en cas de succès false sinon
+ */
+async function DeleteFeedback(feedbackId) {
 
-        // Afficher le resultat
-        console.log(`feedback(id = ${success}) supprimée`);
-    } catch(err){
-        console.log(err);
-        success = false;
-    } finally {
-        if (conn) await conn.release();
+    const query = "DELETE FROM feedback WHERE id = ?";
+    const result = await QueryHandler(query, [feedbackId]);
+    console.debug(result);
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
     }
-    return success;
+
+    // log
+    console.log(`commentaire (id = ${feedbackId}) supprimé`);
+
+    return true;
 }
 
-module.exports = {DeleteAFeedback};
+
+
+module.exports = { DeleteFeedback };

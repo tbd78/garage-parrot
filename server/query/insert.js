@@ -1,25 +1,35 @@
-const db = require("../connect/connection");
+const QueryHandler = require("./queryHandler");
 
+/**
+ * Insérer un commentaire
+ * @param {object} feedback
+ * @param {string} feedback.name le nom de la personne qui à émit le commentaire
+ * @param {string} feedback.comment le commentaire
+ * @param {number} feedback.rating la note
+ * @return {Promise<boolean>} true en cas de succès false sinon
+ */
 async function InsertFeedback(feedback) {
-    let conn;
-    let success = true;
-    try {
-        // TODO: vérifier l'intégrité de l'objet feedback
-        conn = await db.pool.getConnection();
-        const insertQuery = "INSERT INTO feedback (date, name, comment, rating, validation) VALUES (?, ?, ?, ?, ?)";
-        const date = new Date(Date.now());
-        const dateLiteral = `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}`;
-        const result = await conn.query(insertQuery, [dateLiteral, feedback.name, feedback.comment, feedback.rating, 0]);
+    const query = "INSERT INTO feedback (date, name, comment, rating, validation) VALUES (?, ?, ?, ?, ?)";
+    const date = new Date(Date.now());
+    // TODO: Changer le date.getUTCMonth en rajoutant +1 ?
+    const dateLiteral = `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()}`;
+    const paramList = [dateLiteral, feedback.name, feedback.comment, feedback.rating, 0];
+    const result = await QueryHandler(query, paramList);
 
-        // Afficher le resultat
-        console.log(`feedback(id = ${result.insertId}) inséré`);
-    } catch(err){
-        console.log(err);
-        success = false;
-    } finally {
-        if (conn) await conn.release();
+    // log
+    console.debug(result);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
     }
-    return success;
+
+    // log
+    console.log(`commentaire (id = ${result.insertId}) inséré`) ;
+
+    return true;
+
 }
 
-module.exports = {InsertFeedback};
+
+module.exports = { InsertFeedback };

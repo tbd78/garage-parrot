@@ -1,10 +1,10 @@
 const router = require("express").Router();
 
 // import queries
-const insert = require("../../query/insert");
-const select = require("../../query/select");
-const update = require("../../query/update");
-const erase = require("../../query/delete");
+const { InsertFeedback } = require("../../query/insert");
+const { GetFeedback, GetAllFeedbacks } = require("../../query/select");
+const { UpdateFeedback } = require("../../query/update");
+const { DeleteFeedback } = require("../../query/delete");
 
 // insérer un feedback
 router.post('/feedback', async (req, res) => {
@@ -12,58 +12,68 @@ router.post('/feedback', async (req, res) => {
     // log le contenu de la requête
     console.log(feedback);
 
-    const success = await insert.InsertFeedback(feedback);
+    const success = await InsertFeedback(feedback);
     if(success) {
+        // TODO: changer les réponses avec un format json bien défini
         res.send('Donnée sauvegardée');
     } else {
+        // TODO: changer les réponses avec un format json bien défini
         res.status(500).send('Donnée non sauvegardée');
     }
-})
+});
 
 // récupérer tous les feedbacks
 router.get('/feedback', async (req, res) => {
-    const {success, result} = await select.SelectAllFeedbacks();
-    if(success) {
+    const result = await GetAllFeedbacks();
+    if(result) {
+        // TODO: changer les réponses avec un format json bien défini
         res.status(200).json(result);
     } else {
+        // TODO: changer les réponses avec un format json bien défini
         res.send('Impossible de récupérer les feedbacks');
     }
-})
+});
 
 // récupérer un feedback
 router.get('/feedback/:id', async (req, res) => {
     const feedbackId = req.params.id;
-    const {success, result} = await select.SelectAFeedback(feedbackId);
-    if(success) {
+    const result = await GetFeedback(feedbackId);
+    if(result) {
+        // TODO: changer les réponses avec un format json bien défini
         res.status(200).json(result);
     } else {
+        // TODO: changer les réponses avec un format json bien défini
         res.send('Impossible de récupérer les feedbacks');
     }
-})
+});
 
 // modifié un feedback
-router.put('/feedback/:id', async (req, res) => {
+router.put('/feedback', async (req, res) => {
     const feedback = req.body;
     // log le contenu de la requête
     console.log(feedback);
 
-    const {success, result} = await update.UpdateFeedback(feedback);
-    if(success) {
+    const result = await UpdateFeedback(feedback);
+    if(result) {
+        // TODO: changer les réponses avec un format json bien défini
         res.status(200).send(result);
     } else {
+        // TODO: changer les réponses avec un format json bien défini
         res.status(500).send('Donnée non modifiée');
     }
-})
+});
 
 // supprimer un feedback
 router.delete('/feedback/:id', async (req, res) => {
     const feedbackId = req.params.id;
-    const success = await erase.DeleteAFeedback(feedbackId);
+    const success = await DeleteFeedback(feedbackId);
     if(success) {
-        res.status(200).json(`Le feedback avec l'ID ${feedbackId} est supprimé`);
+        // TODO: changer les réponses avec un format json bien défini
+        res.status(200).json(`Le commentaire avec l'ID ${feedbackId} est supprimé`);
     } else {
-        res.send("Le feedback n'est pas supprimé");
+        // TODO: changer les réponses avec un format json bien défini
+        res.send(`Erreur lors de la suppression du commentaire (id = ${feedbackId})`);
     }
-})
+});
 
 module.exports = router;

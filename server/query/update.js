@@ -1,25 +1,33 @@
-const db = require("../connect/connection");
+const QueryHandler = require("./queryHandler");
 
+/**
+ * Modifie un commentaire
+ * @param {object} feedback
+ * @param {number} feedback.id l'id du commentaire
+ * @param {string} feedback.name le nom de la personne qui à émit le commentaire
+ * @param {string} feedback.comment le commentaire
+ * @param {number} feedback.rating la note
+ * @return {Promise<object|boolean>} un commentaire en cas de succès false sinon
+ */
 async function UpdateFeedback(feedback) {
-    let conn;
-    let success = true;
-    let result = null;
-    try {
-        // TODO: vérifier l'intégrité de l'objet feedback
-        conn = await db.pool.getConnection();
-        const updateQuery = "UPDATE feedback SET name = ?, comment = ?, rating = ?, validation = ? WHERE id = ?";
-        await conn.query(updateQuery, [feedback.name, feedback.comment, feedback.rating, feedback.validation, feedback.id]);
-        result = {id: feedback.id, name: feedback.name, comment: feedback.comment, rating: feedback.rating, validation: feedback.validation};
+    const query = "UPDATE feedback SET name = ?, comment = ?, rating = ?, validation = ? WHERE id = ?";
+    const paramList = [feedback.name, feedback.comment, feedback.rating, feedback.validation, feedback.id];
+    const result = await QueryHandler(query, paramList);
 
-        // Afficher le resultat
-        console.log(`feedback(id = ${result}) modifié`);
-    } catch(err){
-        console.log(err);
-        success = false;
-    } finally {
-        if (conn) await conn.release();
+    // log
+    console.debug(result);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
     }
-    return {success, result};
+
+    // log
+    console.log(`commentaire (id = ${feedback.id}) modifié`);
+
+    return feedback;
 }
 
-module.exports = {UpdateFeedback};
+
+
+module.exports = { UpdateFeedback };

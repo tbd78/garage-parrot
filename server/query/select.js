@@ -1,46 +1,49 @@
-const db = require("../connect/connection");
+const QueryHandler = require("./queryHandler");
 
-async function SelectAllFeedbacks() {
-    let conn;
-    let success = true;
-    let result = null;
-    try {
-        // TODO: vérifier l'intégrité de l'objet feedback
-        conn = await db.pool.getConnection();
-        const selectAllQuery = "SELECT * FROM feedback";
-        result = await conn.query(selectAllQuery);
+/**
+ * Récupère tous les commentaires
+ * @return {Promise<Array<object>|boolean>} un tableau de commentaire(s) en cas de succès false sinon
+ */
+async function GetAllFeedbacks() {
+    const query = "SELECT * FROM feedback";
+    const result = await QueryHandler(query);
 
-        // Afficher le resultat
-        console.log(`Tous les feedbacks sont récupérés`);
-    } catch(err){
-        console.log(err);
-        success = false;
-    } finally {
-        if (conn) await conn.release();
-     //   db.pool();
+    // log
+    console.debug(result);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
     }
-    return {success, result};
+
+    // log
+    console.log(`tous les commentaires ont été récupérés`) ;
+
+    return result;
 }
 
-async function SelectAFeedback(feedbackId) {
-    let conn;
-    let success = true;
-    let result = null;
-    try {
-        // TODO: vérifier l'intégrité de l'objet feedback
-        conn = await db.pool.getConnection();
-        const selectQuery = "SELECT * FROM feedback WHERE id = ?";
-        result = await conn.query(selectQuery, [feedbackId]);
+/**
+ * Récupère un commentaire par son id
+ * @param {number} id l'id du commentaire à récupérer
+ * @return {Promise<object|boolean>} un commentaire en cas de succès false sinon
+ */
+async function GetFeedback(id) {
+    const query = "SELECT * FROM feedback WHERE id = ?";
+    result = await QueryHandler(query, [id]);
 
-        // Afficher le resultat
-        console.log(`feedback(id = ${feedbackId}) selectionné`);
-    } catch(err){
-        console.log(err);
-        success = false;
-    } finally {
-        if (conn) await conn.release();
+    // log
+    console.debug(result);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
     }
-    return {success, result};
+
+    // log
+    console.log(`commentaire (id = ${id}) recupéré`);
+
+    return result[0];
 }
 
-module.exports = {SelectAllFeedbacks, SelectAFeedback};
+
+module.exports = { GetAllFeedbacks, GetFeedback };
