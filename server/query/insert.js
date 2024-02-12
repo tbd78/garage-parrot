@@ -31,5 +31,34 @@ async function InsertFeedback(feedback) {
 
 }
 
+// TODO: the section below must be moved before commit
 
-module.exports = { InsertFeedback };
+/**
+ * Insérer un nouvel utilisateur
+ * @param {object} user
+ * @param {string} user.firstname prénom de l'utilisateur
+ * @param {string} user.lastname nom de l'utilisateur
+ * @param {string} user.username identifiant de l'utilisateur (e-mail)
+ * @param {string} user.password le mot de passe de l'utilisatuer
+ * @param {string} user.role le rôle de l'utilisateur (admin ou user)
+ * @return {Promise<boolean>} true en cas de succès false sinon
+ */
+async function InsertUser(user) {
+    // TODO: faire du role une constante
+    const query = "INSERT INTO user (username, password, role, firstname, lastname) VALUES (?, ?, ?, ?, ?)";
+    const paramList = [user.username, user.password, user.role, user.firstname, user.lastname];
+    const result = await QueryHandler(query, paramList);
+
+    // log
+    console.debug(result);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
+    }
+
+    // log
+    console.log(`nouvel utilisateur (id = ${result.insertId}) inséré`) ;
+}
+
+module.exports = { InsertFeedback, InsertUser };

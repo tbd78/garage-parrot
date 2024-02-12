@@ -28,6 +28,36 @@ async function UpdateFeedback(feedback) {
     return feedback;
 }
 
+// TODO: the section below must be moved before commit
 
+/**
+ * Modifie un utilisateur
+ * @param {object} user
+ * @param {number} user.id id utilisateur
+ * @param {string} user.firstname prénom de l'utilisateur
+ * @param {string} user.lastname nom de l'utilisateur
+ * @param {string} user.username identifiant de l'utilisateur (e-mail)
+ * @param {string} user.password le mot de passe de l'utilisatuer
+ * @param {string} user.role le rôle de l'utilisateur (admin ou user)
+ * @return {Promise<object|boolean>} un utilisateur en cas de succès false sinon
+ */
+async function UpdateUser(user) {
+    const query = "UPDATE user SET username = ?, password = ?, role = ?, firstname = ?, lastname = ? WHERE id = ?";
+    const paramList = [user.username, user.password, user.role, user.firstname, user.lastname, user.id];
+    const result = await QueryHandler(query, paramList);
 
-module.exports = { UpdateFeedback };
+    // log
+    console.debug(result);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
+    }
+
+    // log
+    console.log(`utilisateur (id = ${user.id}) modifié`);
+
+    return user;
+}
+
+module.exports = { UpdateFeedback, UpdateUser };

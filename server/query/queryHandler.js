@@ -21,7 +21,7 @@ async function QueryHandler(query, paramList = null) {
     }
 
     // si la requête n'affecte pas la base de données alors mettre result à null
-    if(((typeof result) === 'object') && (result.affectedRows === 0)){
+    if(result?.affectedRows === 0){
         result = null;
     }
 
