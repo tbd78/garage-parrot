@@ -21,8 +21,6 @@ async function DeleteFeedback(feedbackId) {
     return true;
 }
 
-// TODO: the section below must be moved before commit
-
 /**
  * Supprime un utilisateur par son id
  * @param {number} id l'id de l'utilisateur
@@ -44,4 +42,25 @@ async function DeleteUser(id) {
     return true;
 }
 
-module.exports = { DeleteFeedback, DeleteUser };
+/**
+ * Supprime un service par son id
+ * @param {number} id l'id du service
+ * @return {Promise<boolean>} true en cas de succès false sinon
+ */
+async function DeleteService(id) {
+
+    const query = "DELETE FROM services WHERE id = ?";
+    const result = await QueryHandler(query, [id]);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
+    }
+
+    // log
+    console.log(`service (id = ${id}) supprimé`);
+
+    return true;
+}
+
+module.exports = { DeleteFeedback, DeleteUser, DeleteService };

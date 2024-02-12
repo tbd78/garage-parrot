@@ -45,10 +45,8 @@ async function GetFeedback(id) {
     return result[0];
 }
 
-// TODO: the section below must be moved before commit
-
 /**
- * Récupère tous les utilisateurs
+ * Récupère tous les services
  * @return {Promise<Array<object>|boolean>} un tableau d' utilisateur(s) en cas de succès false sinon
  */
 async function GetAllUsers() {
@@ -61,7 +59,7 @@ async function GetAllUsers() {
     }
 
     // log
-    console.log(`tous les utilisateurs ont été récupérés`) ;
+    console.log(`tous les services ont été récupérés`) ;
     console.log(result);
     return result;
 }
@@ -90,4 +88,53 @@ async function GetUser(id) {
     return result[0];
 }
 
-module.exports = { GetAllFeedbacks, GetFeedback, GetAllUsers, GetUser };
+/**
+ * Récupère tous les services
+ * @return {Promise<Array<object>|boolean>} un tableau de service(s) en cas de succès false sinon
+ */
+async function GetAllServices() {
+    const query = "SELECT * FROM services";
+    const result = await QueryHandler(query);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
+    }
+
+    // log
+    console.log(`tous les services ont été récupérés`) ;
+    console.log(result);
+    return result;
+}
+
+/**
+ * Récupère un service par son id
+ * @param {number} id l'id du service à récupérer
+ * @return {Promise<object|boolean>} un service en cas de succès false sinon
+ */
+async function GetService(id) {
+    const query = "SELECT * FROM services WHERE id = ?";
+    result = await QueryHandler(query, [id]);
+
+    // log
+    console.debug(result);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
+    }
+
+    // log
+    console.log(`service (id = ${id}) recupéré`);
+
+    // Return a light version of the service's record
+    return result[0];
+}
+module.exports = {
+    GetAllFeedbacks,
+    GetFeedback,
+    GetAllUsers,
+    GetUser,
+    GetAllServices,
+    GetService
+};

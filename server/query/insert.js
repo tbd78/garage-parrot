@@ -28,10 +28,8 @@ async function InsertFeedback(feedback) {
     console.log(`commentaire (id = ${result.insertId}) inséré`) ;
 
     return true;
-
 }
 
-// TODO: the section below must be moved before commit
 
 /**
  * Insérer un nouvel utilisateur
@@ -58,7 +56,36 @@ async function InsertUser(user) {
     }
 
     // log
-    console.log(`nouvel utilisateur (id = ${result.insertId}) inséré`) ;
+    console.log(`nouvel utilisateur (id = ${result.insertId}) inséré`);
+
+    return true;
 }
 
-module.exports = { InsertFeedback, InsertUser };
+
+/**
+ * Insérer un nouveau service
+ * @param {object} service
+ * @param {string} service.service_name nom du service
+ * @param {string} service.description description du service
+ * @return {Promise<boolean>} true en cas de succès false sinon
+ */
+async function InsertService(service) {
+    const query = "INSERT INTO services (service_name, description) VALUES (?, ?)";
+    const paramList = [service.service_name, service.description];
+    const result = await QueryHandler(query, paramList);
+
+    // log
+    console.debug("result", result);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
+    }
+
+    // log
+    console.log(`nouveau service (id = ${result.insertId}) inséré`);
+
+    return true;
+}
+
+module.exports = { InsertFeedback, InsertUser, InsertService };

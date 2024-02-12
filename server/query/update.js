@@ -28,8 +28,6 @@ async function UpdateFeedback(feedback) {
     return feedback;
 }
 
-// TODO: the section below must be moved before commit
-
 /**
  * Modifie un utilisateur
  * @param {object} user
@@ -60,4 +58,31 @@ async function UpdateUser(user) {
     return user;
 }
 
-module.exports = { UpdateFeedback, UpdateUser };
+/**
+ * Modifie un service
+ * @param {object} service
+ * @param {number} service.id id service
+ * @param {string} service.service_name nom du service
+ * @param {string} service.description description du service
+ * @return {Promise<object|boolean>} un service en cas de succès false sinon
+ */
+async function UpdateService(service) {
+    const query = "UPDATE services SET service_name = ?, description = ? WHERE id = ?";
+    const paramList = [service.service_name, service.description, service.id];
+    const result = await QueryHandler(query, paramList);
+
+    // log
+    console.debug(result);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        return false;
+    }
+
+    // log
+    console.log(`service (id = ${service.id}) modifié`);
+
+    return service;
+}
+
+module.exports = { UpdateFeedback, UpdateUser, UpdateService };
