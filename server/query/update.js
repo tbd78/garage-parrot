@@ -1,4 +1,35 @@
-const QueryHandler = require("./queryHandler");
+const { QueryHandlerExpectedResultObject } = require("./query_handler");
+
+// requêtes SQL
+const UPDATE_FEEDBACK       = "UPDATE feedback SET name = ?, comment = ?, rating = ?, validation = ? WHERE id = ?";
+const UPDATE_USER           = "UPDATE user SET username = ?, password = ?, role = ?, firstname = ?, lastname = ? WHERE id = ?";
+const UPDATE_SERVICE        = "UPDATE services SET service_name = ?, description = ? WHERE id = ?";
+// const UPDATE_CAR            = "UPDATE services SET service_name = ?, description = ? WHERE id = ?";
+
+/**
+ * Modifie un élément
+ * @param {string} query requête SQL
+ * @param {object} item élément à modifier
+ * @param {any[]} paramList liste des paramètres de la requête SQL
+ * @return {Promise<object|boolean>} un élément en cas de succès, false sinon
+ */
+async function Update(query, item, paramList) {
+    const result = await QueryHandlerExpectedResultObject(query, paramList);
+
+    // log
+    console.debug("résultat modification : ", result);
+
+    // en cas d'erreur on n'arrête
+    if(result === null) {
+        console.log(`élément (id = ${item.id}) non modifié`);
+        return false;
+    }
+
+    // log
+    console.log(`élément (id = ${item.id}) modifié`);
+
+    return item;
+}
 
 /**
  * Modifie un commentaire
@@ -7,25 +38,11 @@ const QueryHandler = require("./queryHandler");
  * @param {string} feedback.name le nom de la personne qui à émit le commentaire
  * @param {string} feedback.comment le commentaire
  * @param {number} feedback.rating la note
- * @return {Promise<object|boolean>} un commentaire en cas de succès false sinon
+ * @return {Promise<object|boolean>} un commentaire en cas de succès, false sinon
  */
 async function UpdateFeedback(feedback) {
-    const query = "UPDATE feedback SET name = ?, comment = ?, rating = ?, validation = ? WHERE id = ?";
     const paramList = [feedback.name, feedback.comment, feedback.rating, feedback.validation, feedback.id];
-    const result = await QueryHandler(query, paramList);
-
-    // log
-    console.debug(result);
-
-    // en cas d'erreur on n'arrête
-    if(result === null) {
-        return false;
-    }
-
-    // log
-    console.log(`commentaire (id = ${feedback.id}) modifié`);
-
-    return feedback;
+    return Update(UPDATE_FEEDBACK, feedback, paramList);
 }
 
 /**
@@ -40,22 +57,8 @@ async function UpdateFeedback(feedback) {
  * @return {Promise<object|boolean>} un utilisateur en cas de succès false sinon
  */
 async function UpdateUser(user) {
-    const query = "UPDATE user SET username = ?, password = ?, role = ?, firstname = ?, lastname = ? WHERE id = ?";
     const paramList = [user.username, user.password, user.role, user.firstname, user.lastname, user.id];
-    const result = await QueryHandler(query, paramList);
-
-    // log
-    console.debug(result);
-
-    // en cas d'erreur on n'arrête
-    if(result === null) {
-        return false;
-    }
-
-    // log
-    console.log(`utilisateur (id = ${user.id}) modifié`);
-
-    return user;
+    return Update(UPDATE_USER, user, paramList);
 }
 
 /**
@@ -67,22 +70,8 @@ async function UpdateUser(user) {
  * @return {Promise<object|boolean>} un service en cas de succès false sinon
  */
 async function UpdateService(service) {
-    const query = "UPDATE services SET service_name = ?, description = ? WHERE id = ?";
     const paramList = [service.service_name, service.description, service.id];
-    const result = await QueryHandler(query, paramList);
-
-    // log
-    console.debug(result);
-
-    // en cas d'erreur on n'arrête
-    if(result === null) {
-        return false;
-    }
-
-    // log
-    console.log(`service (id = ${service.id}) modifié`);
-
-    return service;
+    return Update(UPDATE_SERVICE, service, paramList);
 }
 
 module.exports = { UpdateFeedback, UpdateUser, UpdateService };
