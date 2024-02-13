@@ -1,82 +1,53 @@
 const router = require("express").Router();
 
+// import queries
 const { DeleteUser } = require("../../query/delete");
 const { InsertUser } = require("../../query/insert");
 const { GetAllUsers, GetUser } = require("../../query/select");
 const { UpdateUser } = require("../../query/update");
+// import response maker for api responses
+const ResponseMaker = require("./responser_maker");
 
 // insérer un utilisateur
-router.post('/user', async (req, res) => {
+router.post('/', async (req, res) => {
     const user = req.body;
+    // TODO: validation de données
     // log le contenu de la requête
-    console.log(user);
+    console.debug("requête: ", user);
 
-    const success = await InsertUser(user);
-    if(success) {
-        // TODO: changer les réponses avec un format json bien défini
-        res.send('Donnée sauvegardée');
-    } else {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(500).send('Donnée non sauvegardée');
-    }
+    const result = await InsertUser(user);
+    res.json(ResponseMaker(result, result));
 });
 
 // récupérer tous les utilisateurs
-router.get('/user', async (req, res) => {
+router.get('/', async (req, res) => {
     const result = await GetAllUsers();
-
-    if(result) {
-        // TODO: changer les réponses avec un format json bien défini
-        console.log("/user", result);
-        res.status(200).json(result);
-    } else {
-        // TODO: changer les réponses avec un format json bien défini
-        res.send('Impossible de récupérer les utilisateurs');
-    }
+    res.json(ResponseMaker(result, result));
 });
 
 // récupérer un utilisateur
-router.get('/user/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const id = req.params.id;
     const result = await GetUser(id);
-
-    if(result) {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(200).json(result);
-    } else {
-        // TODO: changer les réponses avec un format json bien défini
-        res.send(`Impossible de récupérer l'utilisateurs`);
-    }
+    res.json(ResponseMaker(result, result));
 });
 
 // modifié un utilisateur
-router.put('/user', async (req, res) => {
+router.put('/', async (req, res) => {
     const user = req.body;
+    // TODO: validation de données
     // log le contenu de la requête
-    console.log(user);
+    console.debug("requête : ", user);
 
     const result = await UpdateUser(user);
-
-    if(result) {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(200).send(result);
-    } else {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(500).send('Donnée non modifiée');
-    }
+    res.json(ResponseMaker(result, result));
 });
 
 // supprimer un utilisateur
-router.delete('/user/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const id = req.params.id;
     const success = await DeleteUser(id);
-    if(success) {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(200).json(`L'utilisateur avec l'ID ${id} est supprimé`);
-    } else {
-        // TODO: changer les réponses avec un format json bien défini
-        res.send("L'utilisateur n'est pas supprimé");
-    }
+    res.json(ResponseMaker(success));
 });
 
 module.exports = router;

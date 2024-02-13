@@ -5,8 +5,8 @@ const { QueryHandlerExpectedResultArray } = require("./query_handler");
 const SELECT_ALL_FEEDBACKS      = "SELECT * FROM feedback";
 const SELECT_FEEDBACK           = "SELECT * FROM feedback WHERE id = ?";
 // utilisateur
-const SELECT_ALL_USERS          = "SELECT username, role, firstname, lastname FROM user";
-const SELECT_USER               = "SELECT username, role, firstname, lastname FROM user WHERE id = ?";
+const SELECT_ALL_USERS          = "SELECT id, username, role, firstname, lastname FROM user";
+const SELECT_USER               = "SELECT id, username, role, firstname, lastname FROM user WHERE id = ?";
 // service
 const SELECT_ALL_SERVICES       = "SELECT * FROM services";
 const SELECT_SERVICE            = "SELECT * FROM services WHERE id = ?";

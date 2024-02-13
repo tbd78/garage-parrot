@@ -56,7 +56,7 @@ async function InsertFeedback(feedback) {
  * @param {string} user.username identifiant de l'utilisateur (e-mail)
  * @param {string} user.password le mot de passe de l'utilisatuer
  * @param {string} user.role le rôle de l'utilisateur (admin ou user)
- * @return {Promise<boolean|object>} true en cas de succès false sinon
+ * @return {Promise<boolean|object>} user en cas de succès, false sinon
  */
 async function InsertUser(user) {
     // TODO: faire du role une constante
