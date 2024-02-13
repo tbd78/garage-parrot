@@ -5,75 +5,49 @@ const { InsertFeedback } = require("../../query/insert");
 const { GetFeedback, GetAllFeedbacks } = require("../../query/select");
 const { UpdateFeedback } = require("../../query/update");
 const { DeleteFeedback } = require("../../query/delete");
+// import response maker for api responses
+const ResponseMaker = require("./responser_maker");
 
 // insérer un feedback
-router.post('/feedback', async (req, res) => {
+router.post('/', async (req, res) => {
     const feedback = req.body;
+    // TODO: validation de données
     // log le contenu de la requête
-    console.log(feedback);
+    console.debug("requête: ", feedback);
 
-    const success = await InsertFeedback(feedback);
-    if(success) {
-        // TODO: changer les réponses avec un format json bien défini
-        res.send('Donnée sauvegardée');
-    } else {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(500).send('Donnée non sauvegardée');
-    }
+    const result = await InsertFeedback(feedback);
+    res.json(ResponseMaker(result, result));
 });
 
 // récupérer tous les feedbacks
-router.get('/feedback', async (req, res) => {
+router.get('/', async (req, res) => {
     const result = await GetAllFeedbacks();
-    if(result) {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(200).json(result);
-    } else {
-        // TODO: changer les réponses avec un format json bien défini
-        res.send('Impossible de récupérer les feedbacks');
-    }
+    res.json(ResponseMaker(result, result));
 });
 
 // récupérer un feedback
-router.get('/feedback/:id', async (req, res) => {
-    const feedbackId = req.params.id;
-    const result = await GetFeedback(feedbackId);
-    if(result) {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(200).json(result);
-    } else {
-        // TODO: changer les réponses avec un format json bien défini
-        res.send('Impossible de récupérer les feedbacks');
-    }
+router.get('/:id', async (req, res) => {
+    const id = req.params.id;
+    const result = await GetFeedback(id);
+    res.json(ResponseMaker(result, result));
 });
 
 // modifié un feedback
-router.put('/feedback', async (req, res) => {
+router.put('/', async (req, res) => {
     const feedback = req.body;
+    // TODO: validation de données
     // log le contenu de la requête
-    console.log(feedback);
+    console.debug("requête: ", feedback);
 
     const result = await UpdateFeedback(feedback);
-    if(result) {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(200).send(result);
-    } else {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(500).send('Donnée non modifiée');
-    }
+    res.json(ResponseMaker(result, result));
 });
 
 // supprimer un feedback
-router.delete('/feedback/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const feedbackId = req.params.id;
     const success = await DeleteFeedback(feedbackId);
-    if(success) {
-        // TODO: changer les réponses avec un format json bien défini
-        res.status(200).json(`Le commentaire avec l'ID ${feedbackId} est supprimé`);
-    } else {
-        // TODO: changer les réponses avec un format json bien défini
-        res.send(`Erreur lors de la suppression du commentaire (id = ${feedbackId})`);
-    }
+    res.json(ResponseMaker(success));
 });
 
 module.exports = router;
