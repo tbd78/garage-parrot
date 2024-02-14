@@ -11,8 +11,8 @@ const SELECT_USER               = "SELECT id, username, role, firstname, lastnam
 const SELECT_ALL_SERVICES       = "SELECT * FROM services";
 const SELECT_SERVICE            = "SELECT * FROM services WHERE id = ?";
 // voiture
-const SELECT_ALL_CARS           = "SELECT * FROM car";
-const SELECT_CAR                = "SELECT * FROM car WHERE id = ?";
+const SELECT_ALL_CARS           = "SELECT * FROM cars";
+const SELECT_CAR                = "SELECT * FROM cars WHERE id = ?";
 
 
 /**
@@ -67,7 +67,7 @@ async function Get(query, id) {
 
 /**
  * Récupère tous les commentaires
- * @return {Promise<Array<object>|boolean>} un tableau de commentaire(s) en cas de succès false sinon
+ * @return {Promise<Array<object>|boolean>} un tableau de commentaire(s) en cas de succès, false sinon
  */
 async function GetAllFeedbacks() {
     return GetAll(SELECT_ALL_FEEDBACKS);
@@ -76,7 +76,7 @@ async function GetAllFeedbacks() {
 /**
  * Récupère un commentaire par son id
  * @param {number} id l'id du commentaire à récupérer
- * @return {Promise<object|boolean>} un commentaire en cas de succès false sinon
+ * @return {Promise<object|boolean>} un commentaire en cas de succès, false sinon
  */
 async function GetFeedback(id) {
     return Get(SELECT_FEEDBACK, id);
@@ -84,7 +84,7 @@ async function GetFeedback(id) {
 
 /**
  * Récupère tous les services
- * @return {Promise<Array<object>|boolean>} un tableau d' utilisateur(s) en cas de succès false sinon
+ * @return {Promise<Array<object>|boolean>} un tableau d' utilisateur(s) en cas de succès, false sinon
  */
 async function GetAllUsers() {
     return GetAll(SELECT_ALL_USERS);
@@ -93,7 +93,7 @@ async function GetAllUsers() {
 /**
  * Récupère un utilisateur par son id
  * @param {number} id l'id de l'utlisateur à récupérer
- * @return {Promise<object|boolean>} un utilisateur en cas de succès false sinon
+ * @return {Promise<object|boolean>} un utilisateur en cas de succès, false sinon
  */
 async function GetUser(id) {
     return Get(SELECT_USER, id);
@@ -101,7 +101,7 @@ async function GetUser(id) {
 
 /**
  * Récupère tous les services
- * @return {Promise<Array<object>|boolean>} un tableau de service(s) en cas de succès false sinon
+ * @return {Promise<Array<object>|boolean>} un tableau de service(s) en cas de succès, false sinon
  */
 async function GetAllServices() {
     return GetAll(SELECT_ALL_SERVICES);
@@ -110,11 +110,29 @@ async function GetAllServices() {
 /**
  * Récupère un service par son id
  * @param {number} id l'id du service à récupérer
- * @return {Promise<object|boolean>} un service en cas de succès false sinon
+ * @return {Promise<object|boolean>} un service en cas de succès, false sinon
  */
 async function GetService(id) {
     return Get(SELECT_SERVICE, id);
 }
+
+/**
+ * Récupère toutes les voitures
+ * @return {Promise<object|boolean>} un tableau de voiture(s) en cas de succès, false sinon
+ */
+async function GetAllCars() {
+    return GetAll(SELECT_ALL_CARS);
+}
+
+/**
+ * Récupère une voiture par son id
+ * @param {number} id l'id du voiture à récupérer
+ * @return {Promise<object|boolean>} une voiture en cas de succès, false sinon
+ */
+async function GetCar(id) {
+    return Get(SELECT_CAR, id);
+}
+
 
 module.exports = {
     // lié aux commentaires
@@ -127,5 +145,9 @@ module.exports = {
 
     // lié aux services
     GetAllServices,
-    GetService
+    GetService,
+
+    // lié aux voitures
+    GetAllCars,
+    GetCar,
 };

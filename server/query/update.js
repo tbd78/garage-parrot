@@ -4,7 +4,7 @@ const { QueryHandlerExpectedResultObject } = require("./query_handler");
 const UPDATE_FEEDBACK       = "UPDATE feedback SET name = ?, comment = ?, rating = ?, validation = ? WHERE id = ?";
 const UPDATE_USER           = "UPDATE user SET username = ?, password = ?, role = ?, firstname = ?, lastname = ? WHERE id = ?";
 const UPDATE_SERVICE        = "UPDATE services SET service_name = ?, description = ? WHERE id = ?";
-// const UPDATE_CAR            = "UPDATE services SET service_name = ?, description = ? WHERE id = ?";
+const UPDATE_CAR            = "UPDATE cars SET brand = ?, model = ?, price = ?, mileage = ?, year = ?, cover_image = ?, sold = ? WHERE id = ?";
 
 /**
  * Modifie un élément
@@ -67,11 +67,29 @@ async function UpdateUser(user) {
  * @param {number} service.id id service
  * @param {string} service.service_name nom du service
  * @param {string} service.description description du service
- * @return {Promise<object|boolean>} un service en cas de succès false sinon
+ * @return {Promise<object|boolean>} un service en cas de succès, false sinon
  */
 async function UpdateService(service) {
     const paramList = [service.service_name, service.description, service.id];
     return Update(UPDATE_SERVICE, service, paramList);
 }
 
-module.exports = { UpdateFeedback, UpdateUser, UpdateService };
+/**
+ * Modifie une voiture
+ * @param {object} car
+ * @param {number} car.id id de la voiture
+ * @param {string} car.brand la marque de la voiture
+ * @param {string} car.model le model de la voiture
+ * @param {number} car.price le prix de la voiture
+ * @param {number} car.mileage le kilométrage de la voiture
+ * @param {number} car.year l'année de fabrication la voiture
+ * @param {string} car.cover_image l'image principale de la voiture
+ * @param {boolean} car.sold true si la voiture est vendue false sinon
+ * @return {Promise<object|boolean>} un service en cas de succès, false sinon
+ */
+async function UpdateCar(car) {
+    const paramList = [car.brand, car.model, car.price, car.mileage, car.year, car.cover_image, car.sold, car.id];
+    return Update(UPDATE_CAR, car, paramList);
+}
+
+module.exports = { UpdateFeedback, UpdateUser, UpdateService, UpdateCar };

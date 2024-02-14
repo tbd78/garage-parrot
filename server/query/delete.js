@@ -4,7 +4,7 @@ const { QueryHandlerExpectedResultObject } = require("./query_handler");
 const DELETE_FEEDBACK   = "DELETE FROM feedback WHERE id = ?";
 const DELETE_USER       = "DELETE FROM user WHERE id = ?";
 const DELETE_SERVICE    = "DELETE FROM services WHERE id = ?";
-const DELETE_CAR        = "";
+const DELETE_CAR        = "DELETE FROM cars WHERE id = ?";
 
 /**
  * Supprime un élément de la base de données
@@ -33,7 +33,7 @@ async function Delete(query, id) {
 /**
  * Supprime un commentaire par son id
  * @param {number} id l'id du commentaire à supprimer
- * @return {Promise<boolean>} true en cas de succès false sinon
+ * @return {Promise<boolean>} true en cas de succès, false sinon
  */
 async function DeleteFeedback(id) {
     return Delete(DELETE_FEEDBACK, id);
@@ -42,7 +42,7 @@ async function DeleteFeedback(id) {
 /**
  * Supprime un utilisateur par son id
  * @param {number} id l'id de l'utilisateur
- * @return {Promise<boolean>} true en cas de succès false sinon
+ * @return {Promise<boolean>} true en cas de succès, false sinon
  */
 async function DeleteUser(id) {
     return Delete(DELETE_USER, id);
@@ -51,10 +51,19 @@ async function DeleteUser(id) {
 /**
  * Supprime un service par son id
  * @param {number} id l'id du service
- * @return {Promise<boolean>} true en cas de succès false sinon
+ * @return {Promise<boolean>} true en cas de succès, false sinon
  */
 async function DeleteService(id) {
     return Delete(DELETE_SERVICE, id);
 }
 
-module.exports = { DeleteFeedback, DeleteUser, DeleteService };
+/**
+ * Supprime une voiture par son id
+ * @param {number} id l'id de la voiture
+ * @return {Promise<boolean>} true en cas de succès, false sinon
+ */
+async function DeleteCar(id) {
+    return Delete(DELETE_CAR, id);
+}
+
+module.exports = { DeleteFeedback, DeleteUser, DeleteService, DeleteCar };
