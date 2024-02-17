@@ -1,3 +1,4 @@
+// crée le routeur
 const router = require("express").Router();
 
 // import queries
@@ -5,48 +6,33 @@ const { InsertCar } = require("../../query/insert");
 const { GetCar, GetAllCars } = require("../../query/select");
 const { UpdateCar } = require("../../query/update");
 const { DeleteCar } = require("../../query/delete");
-// import response maker for api responses
-const ResponseMaker = require("./responser_maker");
 
-// insérer une voiture
+// import les controlleurs génériques
+const controller = require("./router_controller");
+
+// insère une voiture
 router.post('/', async (req, res) => {
-    const car = req.body;
-    // TODO: validation de données
-    // log le contenu de la requête
-    console.debug("requête: ", car);
-
-    const result = await InsertCar(car);
-    res.json(ResponseMaker(result, result));
+    controller.Insert(req, res, InsertCar);
 });
 
-// récupérer toutes les voitures
+// récupère toutes les voitures
 router.get('/', async (req, res) => {
-    const result = await GetAllCars();
-    res.json(ResponseMaker(result, result));
+    controller.GetAll(req, res, GetAllCars);
 });
 
-// récupérer une voiture
+// récupère une voiture
 router.get('/:id', async (req, res) => {
-    const id = req.params.id;
-    const result = await GetCar(id);
-    res.json(ResponseMaker(result, result));
+    controller.Get(req, res, GetCar);
 });
 
-// modifié une voiture
+// modifie une voiture
 router.put('/', async (req, res) => {
-    const car = req.body;
-    // log le contenu de la requête
-    console.log(car);
-
-    const result = await UpdateCar(car);
-    res.json(ResponseMaker(result, result));
+    controller.Update(req, res, UpdateCar);
 });
 
 // supprimer une voiture
 router.delete('/:id', async (req, res) => {
-    const id = req.params.id;
-    const success = await DeleteCar(id);
-    res.json(ResponseMaker(success));
+    controller.Delete(req, res, DeleteCar);
 });
 
 module.exports = router;
