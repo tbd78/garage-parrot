@@ -8,6 +8,7 @@ const DELETE_CAR            = "DELETE FROM cars WHERE id = ?";
 const DELETE_SPEC           = "DELETE FROM specs WHERE id = ?";
 const DELETE_CONTACT_INFO   = "DELETE FROM contact_info WHERE id = ?";
 const DELETE_CAR_SPEC       = "DELETE FROM characteristics WHERE id = ?";
+const DELETE_GALLERY_ITEM   = "DELETE FROM gallery WHERE id = ?";
 
 /**
  * Supprime un élément de la base de données
@@ -96,4 +97,13 @@ exports.DeleteContactInfo = async function(id) {
  */
 exports.DeleteCarSpec = async function(id) {
     return Delete(DELETE_CAR_SPEC, id);
+}
+
+/**
+ * Supprime une entrée dans la gallerie
+ * @param {number} id id de l'entrée
+ * @return {Promise<boolean>} true en cas de succès, false sinon
+ */
+exports.DeleteGallery = async function(id) {
+    return Delete(DELETE_GALLERY_ITEM, id);
 }

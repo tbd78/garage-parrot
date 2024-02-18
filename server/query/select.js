@@ -22,6 +22,9 @@ const SELECT_CONTACT            = "SELECT * FROM contact_info WHERE id = ?";
 // caracteristique voiture
 const SELECT_ALL_CAR_SPECS      = "SELECT * FROM characteristics";
 const SELECT_CAR_SPEC           = "SELECT * FROM characteristics WHERE id = ?";
+// gallery
+const SELECT_ALL_GALLERY_ITEMS  = "SELECT * FROM gallery";
+const SELECT_GALLERY_ITEM       = "SELECT * FROM gallery WHERE id = ?";
 
 
 /**
@@ -205,4 +208,23 @@ exports.GetAllCarSpecs = async function() {
 */
 exports.GetCarSpec = async function(id) {
     return Get(SELECT_CAR_SPEC, id);
+}
+
+// ------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Récupère toutes les entrées de la gallerie
+ * @return {Promise<object|boolean>} un tableau des entrées de la galleri en cas de succès, false sinon
+*/
+exports.GetAllGalleries = async function() {
+    return GetAll(SELECT_ALL_GALLERY_ITEMS);
+}
+
+/**
+ * Récupère une entrée de la gallerie
+ * @param {number} id id de l'entrée
+ * @return {Promise<object|boolean>} entrée de la gallerie en cas de succès, false sinon
+*/
+exports.GetGallery = async function(id) {
+    return Get(SELECT_GALLERY_ITEM, id);
 }

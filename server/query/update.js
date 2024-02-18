@@ -8,6 +8,7 @@ const UPDATE_CAR            = "UPDATE cars SET brand = ?, model = ?, price = ?, 
 const UPDATE_SPEC           = "UPDATE specs SET name = ?, type = ? WHERE id = ?";
 const UPDATE_CAR_SPEC       = "UPDATE characteristics SET car_id = ?, specs_id = ?, value = ? WHERE id = ?"
 const UPDATE_CONTACT_INFO   = "UPDATE contact_info SET name = ?, address = ?, phone = ?, email = ? WHERE id = ?"
+const UPDATE_GALLERY_ITEM   = "UPDATE gallery SET car_id = ?, image = ? WHERE id = ?"
 
 /**
  * Modifie un élément
@@ -137,4 +138,17 @@ exports.UpdateContactInfo = async function(contact_info) {
 exports.UpdateCarSpec = async function(car_spec) {
     const paramList = [car_spec.car_id, car_spec.specs_id, car_spec.value, car_spec.id];
     return Update(UPDATE_CAR_SPEC, car_spec, paramList);
+}
+
+/**
+ * Modifie une entrée de la gallerie
+ * @param {object} gallery_item
+ * @param {number} gallery_item.id id de l'entrée
+ * @param {number} gallery_item.car_id id de la voiture
+ * @param {number} gallery_item.image
+ * @return {Promise<object|boolean>} entrée de la gallerie en cas de succès, false sinon
+ */
+exports.UpdateGallery = async function(gallery_item) {
+    const paramList = [gallery_item.car_id, gallery_item.image, gallery_item.id];
+    return Update(UPDATE_GALLERY_ITEM, gallery_item, paramList);
 }
