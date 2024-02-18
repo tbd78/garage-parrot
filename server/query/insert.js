@@ -7,7 +7,7 @@ const INSERT_SERVICE        = "INSERT INTO services (service_name, description) 
 const INSERT_CAR            = "INSERT INTO cars (brand, model, price, mileage, year, cover_image, sold) VALUES (?, ?, ?, ?, ?, ?, ?)";
 const INSERT_SPEC           = "INSERT INTO specs (name, type) VALUES (?, ?)";
 const INSERT_CONTCAT_INFO   = "INSERT INTO contact_info (name, address, phone, email) VALUES (?, ?, ?, ?)";
-const INSERT_CAR_SPEC       = "INSERT INTO characteristic (car_id, spec_id, value) VALUES (?, ?, ?)";
+const INSERT_CAR_SPEC       = "INSERT INTO characteristics (car_id, specs_id, value) VALUES (?, ?, ?)";
 
 /**
  * Insère un élément donnée dans la base de données
@@ -127,11 +127,11 @@ exports.InsertContactInfo = async function (contact) {
  * Insère une caractéristique d'une voiture
  * @param {object} car_spec
  * @param {string} car_spec.car_id
- * @param {string} car_spec.spec_id
+ * @param {string} car_spec.specs_id
  * @param {string} car_spec.value
  * @return {Promise<boolean>} true en cas de succès false sinon
  */
 exports.InsertCarSpec = async function (car_spec) {
-    const paramList = [car_spec.car_id, car_spec.spec_id, car_spec.value];
-    return Insert(INSERT_CAR_SPEC, contact, paramList);
+    const paramList = [car_spec.car_id, car_spec.specs_id, car_spec.value];
+    return Insert(INSERT_CAR_SPEC, car_spec, paramList);
 }

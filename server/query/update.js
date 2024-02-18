@@ -6,7 +6,7 @@ const UPDATE_USER           = "UPDATE user SET username = ?, password = ?, role 
 const UPDATE_SERVICE        = "UPDATE services SET service_name = ?, description = ? WHERE id = ?";
 const UPDATE_CAR            = "UPDATE cars SET brand = ?, model = ?, price = ?, mileage = ?, year = ?, cover_image = ?, sold = ? WHERE id = ?";
 const UPDATE_SPEC           = "UPDATE specs SET name = ?, type = ? WHERE id = ?";
-const UPDATE_CAR_SPEC       = "UPDATE characteristics SET car_id = ?, spec_id = ?, value = ? WHERE id = ?"
+const UPDATE_CAR_SPEC       = "UPDATE characteristics SET car_id = ?, specs_id = ?, value = ? WHERE id = ?"
 const UPDATE_CONTACT_INFO   = "UPDATE contact_info SET name = ?, address = ?, phone = ?, email = ? WHERE id = ?"
 
 /**
@@ -130,11 +130,11 @@ exports.UpdateContactInfo = async function(contact_info) {
  * @param {object} car_spec
  * @param {number} car_spec.id id de la caractéristique d'une voiture
  * @param {number} car_spec.car_id id de la voiture
- * @param {number} car_spec.spec_id id de la caractéristique
+ * @param {number} car_spec.specs_id id de la caractéristique
  * @param {string} car_spec.value valeur de la caractéristique
  * @return {Promise<object|boolean>} une caractéristique d'une voiture en cas de succès, false sinon
  */
 exports.UpdateCarSpec = async function(car_spec) {
-    const paramList = [car_spec.car_id, car_spec.spec_id, car_spec.value, car_spec.id];
-    return Update(UPDATE_CAR_SPEC, spec, paramList);
+    const paramList = [car_spec.car_id, car_spec.specs_id, car_spec.value, car_spec.id];
+    return Update(UPDATE_CAR_SPEC, car_spec, paramList);
 }

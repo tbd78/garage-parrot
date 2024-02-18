@@ -14,6 +14,7 @@ const serviceRoute = require("./routes/api/service");
 const carRoute = require("./routes/api/car");
 const specRoute = require("./routes/api/spec");
 const contactInfoRoute = require("./routes/api/contact_info");
+const carSpecRoute = require("./routes/api/car_specs");
 
 const app = express();
 const port = process.env.WEB_PORT;
@@ -30,6 +31,7 @@ app.use("/api/service", serviceRoute);
 app.use("/api/car", carRoute);
 app.use("/api/spec", specRoute);
 app.use("/api/contact_info", contactInfoRoute);
+app.use("/api/car_spec", carSpecRoute);
 
 app.use("/api/*", require("./routes/api/router_controller").NotFound)
 
