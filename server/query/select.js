@@ -13,6 +13,15 @@ const SELECT_SERVICE            = "SELECT * FROM services WHERE id = ?";
 // voiture
 const SELECT_ALL_CARS           = "SELECT * FROM cars";
 const SELECT_CAR                = "SELECT * FROM cars WHERE id = ?";
+// specs
+const SELECT_ALL_SPECS          = "SELECT * FROM specs";
+const SELECT_SPEC               = "SELECT * FROM specs WHERE id = ?";
+// infos de contact
+const SELECT_ALL_CONTACT_INFO   = "SELECT * FROM contact_info";
+const SELECT_CONTACT            = "SELECT * FROM contact_info WHERE id = ?";
+// caracteristique voiture
+const SELECT_ALL_CAR_SPECS      = "SELECT * FROM characteristics";
+const SELECT_CAR_SPEC           = "SELECT * FROM characteristics WHERE id = ?";
 
 
 /**
@@ -65,11 +74,13 @@ async function Get(query, id) {
     return result[0];
 }
 
+// ----------------------------------- Fonctions exportées ------------------------------------------------------------
+
 /**
  * Récupère tous les commentaires
  * @return {Promise<Array<object>|boolean>} un tableau de commentaire(s) en cas de succès, false sinon
  */
-async function GetAllFeedbacks() {
+exports.GetAllFeedbacks = async function() {
     return GetAll(SELECT_ALL_FEEDBACKS);
 }
 
@@ -78,15 +89,17 @@ async function GetAllFeedbacks() {
  * @param {number} id l'id du commentaire à récupérer
  * @return {Promise<object|boolean>} un commentaire en cas de succès, false sinon
  */
-async function GetFeedback(id) {
+exports.GetFeedback = async function(id) {
     return Get(SELECT_FEEDBACK, id);
 }
+
+// ------------------------------------------------------------------------------------------------------------------
 
 /**
  * Récupère tous les services
  * @return {Promise<Array<object>|boolean>} un tableau d' utilisateur(s) en cas de succès, false sinon
  */
-async function GetAllUsers() {
+exports.GetAllUsers = async function() {
     return GetAll(SELECT_ALL_USERS);
 }
 
@@ -95,15 +108,17 @@ async function GetAllUsers() {
  * @param {number} id l'id de l'utlisateur à récupérer
  * @return {Promise<object|boolean>} un utilisateur en cas de succès, false sinon
  */
-async function GetUser(id) {
+exports.GetUser = async function(id) {
     return Get(SELECT_USER, id);
 }
+
+// ------------------------------------------------------------------------------------------------------------------
 
 /**
  * Récupère tous les services
  * @return {Promise<Array<object>|boolean>} un tableau de service(s) en cas de succès, false sinon
  */
-async function GetAllServices() {
+exports.GetAllServices = async function() {
     return GetAll(SELECT_ALL_SERVICES);
 }
 
@@ -112,42 +127,82 @@ async function GetAllServices() {
  * @param {number} id l'id du service à récupérer
  * @return {Promise<object|boolean>} un service en cas de succès, false sinon
  */
-async function GetService(id) {
+exports.GetService = async function(id) {
     return Get(SELECT_SERVICE, id);
 }
+
+// ------------------------------------------------------------------------------------------------------------------
 
 /**
  * Récupère toutes les voitures
  * @return {Promise<object|boolean>} un tableau de voiture(s) en cas de succès, false sinon
  */
-async function GetAllCars() {
+exports.GetAllCars = async function() {
     return GetAll(SELECT_ALL_CARS);
 }
 
 /**
  * Récupère une voiture par son id
- * @param {number} id l'id du voiture à récupérer
+ * @param {number} id l'id de la voiture à récupérer
  * @return {Promise<object|boolean>} une voiture en cas de succès, false sinon
  */
-async function GetCar(id) {
+exports.GetCar = async function(id) {
     return Get(SELECT_CAR, id);
 }
 
+// ------------------------------------------------------------------------------------------------------------------
 
-module.exports = {
-    // lié aux commentaires
-    GetAllFeedbacks,
-    GetFeedback,
+/**
+ * Récupère toutes les caractéristiques
+ * @return {Promise<object|boolean>} un tableau de caractéristique(s) en cas de succès, false sinon
+ */
+exports.GetAllSpecs = async function() {
+    return GetAll(SELECT_ALL_SPECS);
+}
 
-    // lié aux utilisateurs
-    GetAllUsers,
-    GetUser,
+/**
+ * Récupère une caractéristique par son id
+ * @param {number} id l'id de la caractéristique à récupérer
+ * @return {Promise<object|boolean>} une caractéristique en cas de succès, false sinon
+ */
+exports.GetSpec = async function(id) {
+    return Get(SELECT_SPEC, id);
+}
 
-    // lié aux services
-    GetAllServices,
-    GetService,
+// ------------------------------------------------------------------------------------------------------------------
 
-    // lié aux voitures
-    GetAllCars,
-    GetCar,
-};
+/**
+ * Récupère tous les infos de contact
+ * @return {Promise<object|boolean>} un tableau d'infos de contact en cas de succès, false sinon
+ */
+exports.GetAllContactInfos = async function() {
+    return GetAll(SELECT_ALL_CONTACT_INFO);
+}
+
+/**
+ * Récupère un info de contact
+ * @param {number} id id info de contact à récupérer
+ * @return {Promise<object|boolean>} un info de contact en cas de succès, false sinon
+ */
+exports.GetContcatInfo = async function(id) {
+    return Get(SELECT_CONTACT, id);
+}
+
+// ------------------------------------------------------------------------------------------------------------------
+
+/**
+ * Récupère tous les caractéristiques voiture
+ * @return {Promise<object|boolean>} un tableau de caractéristiques voiture en cas de succès, false sinon
+*/
+exports.GetAllCarSpecs = async function() {
+    return GetAll(SELECT_ALL_CAR_SPECS);
+}
+
+/**
+ * Récupère une caratéristique voiture
+ * @param {number} id id caractéristique voiture à récupérer
+ * @return {Promise<object|boolean>} une caractéristique voiture en cas de succès, false sinon
+*/
+exports.GetCarSpec = async function(id) {
+    return Get(SELECT_CAR_SPEC, id);
+}
