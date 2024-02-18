@@ -46,7 +46,8 @@ function Make(success, data = null) {
     if(success) {
         response = MakeResponseOK(data);
     } else {
-        response = MakeResponseKO();
+        data = (data) ? data : null;
+        response = MakeResponseKO(data);
     }
 
     return response;

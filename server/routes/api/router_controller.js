@@ -1,17 +1,28 @@
 // import response maker for api responses
 const ResponseMaker = require("./responser_maker");
+// import de 'zod' pour la validation
+const { z } = require("zod");
 
-
+/**
+ * insère des données dans la base de données après validation
+ * @param {z.ZodObject} validator
+ */
 exports.Insert = async (req, res, insertFn, validator = null) => {
     const item = req.body;
-    // TODO: validation de données
-    // TODO: use the validator here
 
     // log le contenu de la requête
     console.debug("requête: ", item);
 
-    const result = await insertFn(item);
-    res.json(ResponseMaker(result, result));
+    try {
+        if(validator) {
+            // validation de item
+            validator.parse(item);
+        }
+        const result = await insertFn(item);
+        res.json(ResponseMaker(result, result));
+    } catch(err) {
+        res.json(ResponseMaker(false, err));
+    }
 };
 
 exports.Get = async (req, res, getFn) => {
@@ -27,14 +38,21 @@ exports.GetAll = async (req, res, getAllFn) => {
 
 exports.Update = async (req, res, updateFn, validator) => {
     const item = req.body;
-    // TODO: validation de données
-    // TODO: use the validator here
 
     // log le contenu de la requête
     console.debug("requête: ", item);
 
-    const result = await updateFn(item);
-    res.json(ResponseMaker(result, result));
+    try {
+        if(validator) {
+            // validation de item
+            validator.parse(item);
+        }
+        const result = await updateFn(item);
+        res.json(ResponseMaker(result, result));
+    } catch(err) {
+        res.json(ResponseMaker(false, err));
+    }
+
 };
 
 exports.Delete = async (req, res, deleteFn) => {
