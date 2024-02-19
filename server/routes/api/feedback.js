@@ -13,14 +13,6 @@ const controller = require("./router_controller");
 // import response maker for api responses
 const ResponseMaker = require("./responser_maker");
 
-// CREATE TABLE IF NOT EXISTS feedback(
-//     `id` INT AUTO_INCREMENT PRIMARY KEY,
-//     `date` DATETIME,
-//     `name` CHAR(50),
-//     `comment` TEXT,
-//     `rating` INT,
-//     `validation` BOOLEAN
-// );
 // import de 'zod' pour la validation
 const { z } = require("zod");
 
@@ -28,7 +20,7 @@ const { z } = require("zod");
 const INSERT_SCHEMA_VALIDATOR = z.object({
     name: z.string().min(1).max(50),
     comment: z.string(),
-    rating: z.number().int()
+    rating: z.number().int().min(0).max(10)
 });
 
 // schema de validation à la mise à jour
@@ -36,7 +28,7 @@ const UPDATE_SCHEMA_VALIDATOR = z.object({
     id: z.number().int(),
     name: z.string().min(1).max(50),
     comment: z.string(),
-    rating: z.number().int(),
+    rating: z.number().int().min(0).max(10),
     validation: z.boolean()
 });
 
