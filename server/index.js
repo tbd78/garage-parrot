@@ -7,16 +7,6 @@ const path = require("path")
 const dotenv = require("dotenv");
 dotenv.config();
 
-// import routers
-const feedbackRoute = require("./routes/api/feedback");
-const userRoute = require("./routes/api/user");
-const serviceRoute = require("./routes/api/service");
-const carRoute = require("./routes/api/car");
-const specRoute = require("./routes/api/spec");
-const contactInfoRoute = require("./routes/api/contact_info");
-const carSpecRoute = require("./routes/api/car_specs");
-const galleryRoute = require("./routes/api/gallery");
-
 const app = express();
 const port = process.env.WEB_PORT;
 
@@ -26,14 +16,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // handle api requests
-app.use("/api/feedback", feedbackRoute);
-app.use("/api/user", userRoute);
-app.use("/api/service", serviceRoute);
-app.use("/api/car", carRoute);
-app.use("/api/spec", specRoute);
-app.use("/api/contact_info", contactInfoRoute);
-app.use("/api/car_spec", carSpecRoute);
-app.use("/api/gallery", galleryRoute);
+app.use("/api/feedback", require("./routes/api/feedback"));
+app.use("/api/user", require("./routes/api/user"));
+app.use("/api/service", require("./routes/api/service"));
+app.use("/api/car", require("./routes/api/car"));
+app.use("/api/spec", require("./routes/api/spec"));
+app.use("/api/contact_info", require("./routes/api/contact_info"));
+app.use("/api/car_spec", require("./routes/api/car_specs"));
+app.use("/api/gallery", require("./routes/api/gallery"));
 
 app.use("/api/*", require("./routes/api/router_controller").NotFound)
 
