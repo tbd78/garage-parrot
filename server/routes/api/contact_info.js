@@ -16,18 +16,18 @@ const { z } = require("zod");
 // schema de validation à l'insertion
 const INSERT_SCHEMA_VALIDATOR = z.object({
     name: z.string().min(1).max(50),
-    address: z.string().min(1).max(50),
+    address: z.string().min(1).max(250),
     phone: z.string().min(1).max(10),
-    email: z.string().min(1).max(50)
+    email: z.string().min(1).max(50).email()
 });
 
 // schema de validation à la mise à jour
 const UPDATE_SCHEMA_VALIDATOR = z.object({
     id: z.number().int(),
     name: z.string().min(1).max(50),
-    address: z.string().min(1).max(50),
+    address: z.string().min(1).max(250),
     phone: z.string().min(1).max(10),
-    email: z.string().min(1).max(50)
+    email: z.string().min(1).max(50).email()
 });
 
 // insère les infos de contact
