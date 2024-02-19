@@ -20,14 +20,12 @@ const INSERT_SCHEMA_VALIDATOR = z.object({
     price: z.number().int(),
     mileage: z.number().int(),
     year: z.number().int(),
-    cover_image: z.string().min(1).max(100),
-    sold: z.boolean()
+    cover_image: z.string().min(1).max(100)
 });
 
 // schema de validation à la mise à jour
 const UPDATE_SCHEMA_VALIDATOR = z.object({
     id: z.number().int(),
-    car_id: z.number().int(),
     brand: z.string().min(2).max(50),
     model: z.string().min(1).max(50),
     price: z.number().int(),
