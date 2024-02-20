@@ -27,9 +27,6 @@ app.use("/api/gallery", require("./routes/api/gallery"));
 
 app.use("/api/*", require("./routes/api/router_controller").NotFound)
 
-// serve application files
-app.use("/", express.static(path.join(__dirname, )));
-
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
