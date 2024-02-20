@@ -22,10 +22,11 @@ USE garage_parrot;
 CREATE TABLE IF NOT EXISTS user (
     `id` INT AUTO_INCREMENT,
     `username` CHAR(50) UNIQUE,
-    `password` TEXT,
+    `password` BLOB,
     `role` CHAR(10),
     `firstname` CHAR(100),
     `lastname` CHAR(100),
+    `salt` BLOB,
     UNIQUE KEY (`username`),
     PRIMARY KEY (`id`)
 );
