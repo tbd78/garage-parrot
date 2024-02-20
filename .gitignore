@@ -1,0 +1,5 @@
+node_modules/*
+package-lock.json
+**/TODO.md
+tmp/
+server/var
