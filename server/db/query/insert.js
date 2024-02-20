@@ -1,8 +1,9 @@
+const crypto = require("crypto");
 const { QueryHandlerExpectedResultObject } = require("./query_handler");
 
 // requêtes SQL
 const INSERT_FEEDBACK       = "INSERT INTO feedback (date, name, comment, rating, validation) VALUES (?, ?, ?, ?, ?)";
-const INSERT_USER           = "INSERT INTO user (username, password, role, firstname, lastname) VALUES (?, ?, ?, ?, ?)";
+const INSERT_USER           = "INSERT INTO user (username, password, salt, role, firstname, lastname) VALUES (?, ?, ?, ?, ?, ?)";
 const INSERT_SERVICE        = "INSERT INTO services (service_name, description) VALUES (?, ?)";
 const INSERT_CAR            = "INSERT INTO cars (brand, model, price, mileage, year, cover_image, sold) VALUES (?, ?, ?, ?, ?, ?, ?)";
 const INSERT_SPEC           = "INSERT INTO specs (name, type) VALUES (?, ?)";
@@ -64,9 +65,20 @@ exports.InsertFeedback = async function(feedback) {
  * @return {Promise<boolean|object>} user en cas de succès, false sinon
  */
 exports.InsertUser = async function(user) {
-    // TODO: faire du role une constante
-    const paramList = [user.username, user.password, user.role, user.firstname, user.lastname];
-    return Insert(INSERT_USER, user, paramList);
+    try {
+        const salt = crypto.randomBytes(16);
+        const hashedPassword = crypto.pbkdf2Sync(user.password, salt, 310000, 32, 'sha256');
+
+        user.role = "admin";
+        user.password = null;
+
+        const paramList = [user.username, hashedPassword, salt,  user.role, user.firstname, user.lastname];
+        return await Insert(INSERT_USER, user, paramList);
+
+    } catch (error) {
+        console.debug("erreur InsertUser:", error)
+        return false;
+    }
 }
 
 /**

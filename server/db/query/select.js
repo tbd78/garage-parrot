@@ -7,6 +7,7 @@ const SELECT_FEEDBACK           = "SELECT * FROM feedback WHERE id = ?";
 // utilisateur
 const SELECT_ALL_USERS          = "SELECT id, username, role, firstname, lastname FROM user";
 const SELECT_USER               = "SELECT id, username, role, firstname, lastname FROM user WHERE id = ?";
+const SELECT_USER_BY_EMAIL      = "SELECT * FROM user WHERE username = ?";
 // service
 const SELECT_ALL_SERVICES       = "SELECT * FROM services";
 const SELECT_SERVICE            = "SELECT * FROM services WHERE id = ?";
@@ -113,6 +114,15 @@ exports.GetAllUsers = async function() {
  */
 exports.GetUser = async function(id) {
     return Get(SELECT_USER, id);
+}
+
+/**
+ * Récupère un utilisateur par son email
+ * @param {string} email l'email de l'utlisateur à récupérer
+ * @return {Promise<object|boolean>} un utilisateur en cas de succès, false sinon
+ */
+exports.GetUserByEmail = (email) => {
+    return Get(SELECT_USER_BY_EMAIL, email);
 }
 
 // ------------------------------------------------------------------------------------------------------------------
