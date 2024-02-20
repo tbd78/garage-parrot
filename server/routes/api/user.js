@@ -2,10 +2,7 @@
 const router = require("express").Router();
 
 // import queries
-const { InsertUser } = require("../../query/insert");
-const { GetAllUsers, GetUser } = require("../../query/select");
-const { UpdateUser } = require("../../query/update");
-const { DeleteUser } = require("../../query/delete");
+const { userQueries } = require("./queries");
 
 // import les controlleurs génériques
 const controller = require("./router_controller");
@@ -34,27 +31,27 @@ const UPDATE_SCHEMA_VALIDATOR = z.object({
 
 // insère un utilisateur
 router.post('/', async (req, res) => {
-    controller.Insert(req, res, InsertUser, INSERT_SCHEMA_VALIDATOR);
+    controller.Insert(req, res, userQueries.Insert, INSERT_SCHEMA_VALIDATOR);
 });
 
 // récupère tous les utilisateurs
 router.get('/', async (req, res) => {
-    controller.GetAll(req, res, GetAllUsers);
+    controller.GetAll(req, res, userQueries.GetAll);
 });
 
 // récupère un utilisateur
 router.get('/:id', async (req, res) => {
-    controller.Get(req, res, GetUser);
+    controller.Get(req, res, userQueries.Get);
 });
 
 // modifie un utilisateur
 router.put('/', async (req, res) => {
-    controller.Update(req, res, UpdateUser, UPDATE_SCHEMA_VALIDATOR);
+    controller.Update(req, res, userQueries.Update, UPDATE_SCHEMA_VALIDATOR);
 });
 
 // supprime un utilisateur
 router.delete('/:id', async (req, res) => {
-    controller.Delete(req, res, DeleteUser);
+    controller.Delete(req, res, userQueries.Delete);
 });
 
 module.exports = router;

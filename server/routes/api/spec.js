@@ -2,10 +2,7 @@
 const router = require("express").Router();
 
 // import queries
-const { InsertSpec } = require("../../query/insert");
-const { GetSpec, GetAllSpecs } = require("../../query/select");
-const { UpdateSpec } = require("../../query/update");
-const { DeleteSpec } = require("../../query/delete");
+const { specQueries } = require("./queries");
 
 // import les controlleurs génériques
 const controller = require("./router_controller");
@@ -28,27 +25,27 @@ const UPDATE_SCHEMA_VALIDATOR = z.object({
 
 // insérer une caractéristique
 router.post('/', async (req, res) => {
-    controller.Insert(req, res, InsertSpec, INSERT_SCHEMA_VALIDATOR);
+    controller.Insert(req, res, specQueries.Insert, INSERT_SCHEMA_VALIDATOR);
 });
 
 // récupère toutes les caractéristiques
 router.get('/', async (req, res) => {
-    controller.GetAll(req, res, GetAllSpecs);
+    controller.GetAll(req, res, specQueries.GetAll);
 });
 
 // récupère une caractéristique
 router.get('/:id', async (req, res) => {
-    controller.Get(req, res, GetSpec);
+    controller.Get(req, res, specQueries.Get);
 });
 
 // modifie une caractéristique
 router.put('/', async (req, res) => {
-    controller.Update(req, res, UpdateSpec, UPDATE_SCHEMA_VALIDATOR);
+    controller.Update(req, res, specQueries.Update, UPDATE_SCHEMA_VALIDATOR);
 });
 
 // supprime une caractéristique
 router.delete('/:id', async (req, res) => {
-    controller.Delete(req, res, DeleteSpec)
+    controller.Delete(req, res, specQueries.Delete)
 });
 
 module.exports = router;

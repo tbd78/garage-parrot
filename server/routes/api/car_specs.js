@@ -1,10 +1,9 @@
 // crée le routeur
 const router = require("express").Router();
 // import queries
-const { InsertCarSpec } = require("../../query/insert");
-const { GetAllCarSpecs, GetCarSpec } = require("../../query/select");
-const { UpdateCarSpec } = require("../../query/update");
-const { DeleteCarSpec } = require("../../query/delete");
+// import queries
+const { carSpecsQueries } = require("./queries");
+
 // import les controlleurs génériques
 const controller = require("./router_controller");
 // import de 'zod' pour la validation
@@ -27,27 +26,27 @@ const UPDATE_SCHEMA_VALIDATOR = z.object({
 
 // insère une voiture
 router.post('/', async (req, res) => {
-    controller.Insert(req, res, InsertCarSpec, INSERT_SCHEMA_VALIDATOR);
+    controller.Insert(req, res, carSpecsQueries.Insert, INSERT_SCHEMA_VALIDATOR);
 });
 
 // récupère toutes les voitures
 router.get('/', async (req, res) => {
-    controller.GetAll(req, res, GetAllCarSpecs);
+    controller.GetAll(req, res, carSpecsQueries.GetAll);
 });
 
 // récupère une voiture
 router.get('/:id', async (req, res) => {
-    controller.Get(req, res, GetCarSpec);
+    controller.Get(req, res, carSpecsQueries.Get);
 });
 
 // modifie une voiture
 router.put('/', async (req, res) => {
-    controller.Update(req, res, UpdateCarSpec, UPDATE_SCHEMA_VALIDATOR);
+    controller.Update(req, res, carSpecsQueries.Update, UPDATE_SCHEMA_VALIDATOR);
 });
 
 // supprimer une voiture
 router.delete('/:id', async (req, res) => {
-    controller.Delete(req, res, DeleteCarSpec);
+    controller.Delete(req, res, carSpecsQueries.Delete);
 });
 
 module.exports = router;

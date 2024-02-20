@@ -2,10 +2,7 @@
 const router = require("express").Router();
 
 // import queries
-const { DeleteService } = require("../../query/delete");
-const { InsertService } = require("../../query/insert");
-const { GetAllServices, GetService } = require("../../query/select");
-const { UpdateService } = require("../../query/update");
+const { serviceQueries } = require("./queries");
 
 // import les controlleurs génériques
 const controller = require("./router_controller");
@@ -28,27 +25,27 @@ const UPDATE_SCHEMA_VALIDATOR = z.object({
 
 // insère un service
 router.post('/', async (req, res) => {
-    controller.Insert(req, res, InsertService, INSERT_SCHEMA_VALIDATOR);
+    controller.Insert(req, res, serviceQueries.Insert, INSERT_SCHEMA_VALIDATOR);
 });
 
 // récupère tous les services
 router.get('/', async (req, res) => {
-    controller.GetAll(req, res, GetAllServices);
+    controller.GetAll(req, res, serviceQueries.GetAll);
 });
 
 // récupère un service
 router.get('/:id', async (req, res) => {
-    controller.Get(req, res, GetService);
+    controller.Get(req, res, serviceQueries.Get);
 });
 
 // modifie un service
 router.put('/', async (req, res) => {
-    controller.Update(req, res, UpdateService, UPDATE_SCHEMA_VALIDATOR);
+    controller.Update(req, res, serviceQueries.Update, UPDATE_SCHEMA_VALIDATOR);
 });
 
 // supprime un service
 router.delete('/:id', async (req, res) => {
-    controller.Delete(req, res, DeleteService);
+    controller.Delete(req, res, serviceQueries.Delete);
 });
 
 module.exports = router;

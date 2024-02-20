@@ -2,16 +2,10 @@
 const router = require("express").Router();
 
 // import queries
-const { InsertFeedback } = require("../../query/insert");
-const { GetFeedback, GetAllFeedbacks } = require("../../query/select");
-const { UpdateFeedback } = require("../../query/update");
-const { DeleteFeedback } = require("../../query/delete");
+const { feedbackQueries } = require("./queries");
 
 // import les controlleurs génériques
 const controller = require("./router_controller");
-
-// import response maker for api responses
-const ResponseMaker = require("./responser_maker");
 
 // import de 'zod' pour la validation
 const { z } = require("zod");
@@ -34,27 +28,27 @@ const UPDATE_SCHEMA_VALIDATOR = z.object({
 
 // insère un feedback
 router.post('/', async (req, res) => {
-    await controller.Insert(req, res, InsertFeedback, INSERT_SCHEMA_VALIDATOR);
+    await controller.Insert(req, res, feedbackQueries.Insert, INSERT_SCHEMA_VALIDATOR);
 });
 
 // récupère tous les feedbacks
 router.get('/', (req, res) => {
-    controller.GetAll(req, res, GetAllFeedbacks);
+    controller.GetAll(req, res, feedbackQueries.GetAll);
 });
 
 // récupère un feedback
 router.get('/:id', (req, res) => {
-    controller.Get(req, res, GetFeedback);
+    controller.Get(req, res, feedbackQueries.Get);
 });
 
 // modifie un feedback
 router.put('/', (req, res) => {
-    controller.Update(req, res, UpdateFeedback, UPDATE_SCHEMA_VALIDATOR);
+    controller.Update(req, res, feedbackQueries.Update, UPDATE_SCHEMA_VALIDATOR);
 });
 
 // supprime un feedback
 router.delete('/:id', async (req, res) => {
-    controller.Delete(req, res, DeleteFeedback);
+    controller.Delete(req, res, feedbackQueries.Delete);
 });
 
 module.exports = router;

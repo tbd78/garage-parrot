@@ -19,21 +19,24 @@ exports.Insert = async (req, res, insertFn, validator = null) => {
             validator.parse(item);
         }
         const result = await insertFn(item);
-        res.json(ResponseMaker(result, result));
+        const status = (result) ? 200 : 400;
+        res.status(status).json(ResponseMaker(result, result));
     } catch(err) {
-        res.json(ResponseMaker(false, err));
+        res.status(400).json(ResponseMaker(false, err));
     }
 };
 
 exports.Get = async (req, res, getFn) => {
     const id = req.params.id;
     const result = await getFn(id);
-    res.json(ResponseMaker(result, result));
+    const status = (result) ? 200 : 400;
+    res.status(status).json(ResponseMaker(result, result));
 };
 
 exports.GetAll = async (req, res, getAllFn) => {
     const result = await getAllFn();
-    res.json(ResponseMaker(result, result));
+    const status = (result) ? 200 : 400;
+    res.status(status).json(ResponseMaker(result, result));
 };
 
 exports.Update = async (req, res, updateFn, validator) => {
@@ -48,9 +51,10 @@ exports.Update = async (req, res, updateFn, validator) => {
             validator.parse(item);
         }
         const result = await updateFn(item);
-        res.json(ResponseMaker(result, result));
+        const status = (result) ? 200 : 400;
+        res.status(status).json(ResponseMaker(result, result));
     } catch(err) {
-        res.json(ResponseMaker(false, err));
+        res.status(400).json(ResponseMaker(false, err));
     }
 
 };
@@ -58,7 +62,8 @@ exports.Update = async (req, res, updateFn, validator) => {
 exports.Delete = async (req, res, deleteFn) => {
     const id = req.params.id;
     const success = await deleteFn(id);
-    res.json(ResponseMaker(success));
+    const status = (success) ? 200 : 400;
+    res.status(status).json(ResponseMaker(success));
 };
 
 exports.NotFound = (req, res) => {
