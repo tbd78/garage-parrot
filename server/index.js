@@ -1,6 +1,13 @@
 // import express
 const express = require('express');
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const SQLiteStore = require('connect-sqlite3')(session);
+const passport = require('passport');
+// const logger = require("morgan");
+const ensureLogIn = require('connect-ensure-login').ensureLoggedIn;
 
+const fs = require("fs");
 const path = require("path")
 
 // import dotenv
@@ -10,16 +17,41 @@ dotenv.config();
 const app = express();
 const port = process.env.WEB_PORT;
 
+// create path for session storage if not exists -- 再见
+const PATH_DB = path.join(__dirname, "var");
+if(fs.existsSync(PATH_DB) === false) {
+    fs.mkdirSync(PATH_DB);
+}
+
+// just for testing
+// app.use("/login", ensureLogIn({redirectTo: '/login'}));
+
 // for parsing application/json
 app.use(express.json());
 // for parsing application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+//for parsing cookies
+app.use(cookieParser());
+// for session capabilities
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    // cookie: { secure: true },//décommenter si https est actif
+    store: new SQLiteStore({ dir: PATH_DB })
+}));
 
 // routes
 // serve application files
 app.use(express.static(path.join(__dirname, "/public")));
 
 app.use("/", require("./routes/root"));
+
+app.use(passport.authenticate('session'));
+
+app.use("/auth", require("./middleware/auth"));
+
+app.use("/back-office", ensureLogIn({redirectTo: '/auth'}), require("./routes/back_office"));
 
 app.use("/api/feedback", require("./routes/api/feedback"));
 app.use("/api/user", require("./routes/api/user"));
