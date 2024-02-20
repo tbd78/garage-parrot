@@ -3,3 +3,5 @@ package-lock.json
 **/TODO.md
 tmp/
 server/var
+install.lock
+.env
