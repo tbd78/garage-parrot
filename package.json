@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "dev": "nodemon server/index.js"
+    "dev": "nodemon server/index.js",
+    "init": "nodemon init.js"
   },
   "dependencies": {
     "connect-ensure-login": "^0.1.1",

@@ -58,8 +58,8 @@ app.use("/api/user", require("./routes/api/user"));
 app.use("/api/service", require("./routes/api/service"));
 app.use("/api/car", require("./routes/api/car"));
 app.use("/api/spec", require("./routes/api/spec"));
-app.use("/api/contact_info", require("./routes/api/contact_info"));
-app.use("/api/car_spec", require("./routes/api/car_specs"));
+app.use("/api/contact-info", require("./routes/api/contact_info"));
+app.use("/api/car-spec", require("./routes/api/car_specs"));
 app.use("/api/gallery", require("./routes/api/gallery"));
 
 app.use("/api/*", require("./routes/api/router_controller").NotFound);

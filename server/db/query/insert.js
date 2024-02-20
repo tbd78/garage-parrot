@@ -69,7 +69,6 @@ exports.InsertUser = async function(user) {
         const salt = crypto.randomBytes(16);
         const hashedPassword = crypto.pbkdf2Sync(user.password, salt, 310000, 32, 'sha256');
 
-        user.role = "admin";
         user.password = null;
 
         const paramList = [user.username, hashedPassword, salt,  user.role, user.firstname, user.lastname];
