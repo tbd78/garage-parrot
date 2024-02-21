@@ -136,3 +136,11 @@ export async function Post(uri, resource) {
 
     return Tools.ParseAPIResponse(response);
 }
+
+export async function Delete(uri) {
+    const response = await Tools.DeleteAPI(uri);
+    // log
+    console.debug(`retireved response from 'Delete (${uri})': `, response);
+
+    return Tools.ParseAPIResponse(response);
+}
