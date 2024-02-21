@@ -85,32 +85,27 @@
             <br/>
 
             <!-- Services -->
-            <div class="container d-flex justify-content-center">
-                <div class="row" style="width: 30%;">
-                    <form>
-                        <fieldset>
-                            <input type="text" name="id" id="service-id" value="id du service à cacher pour faire lal modif" style="display: none;">
-                          <div class="mb-3 row">
-                            <label for="service-name" name="name" class="col-form-label col-sm-4">Nom</label>
-                            <div class="col-sm-8">
-                                <input type="text" id="service-name" name="service_name" class="form-control" placeholder="Nom">
-                            </div>
-                          </div>
-                          <div class="mb-3 row">
-                            <label for="service-description" class="col-form-label col-sm-4">Description</label>
-                            <div class="col-sm-8">
-                                <textarea id="service-description" name="description" class="form-control"></textarea>
-                            </div>
-                          </div>
-                            <div class="row justify-content-center">
-                                <a href="/back-office/admin" class="btn btn-danger col-sm-6">Annuler</a>
-                            </div>
-                            <div class="row justify-content-center">
-                                <button type="submit" id="submit-service" class="btn btn-primary col-sm-6">Modifier</button>
-                            </div>
-                        </fieldset>
-                      </form>
+            <div class="container" style="width: 600px; margin: auto;">
+
+                <div style="width: 600px; margin: auto;">
+                    <!-- contient l'id -->
+                    <input type="text" name="id" id="service-id" value="id du service à cacher pour faire lal modif" style="display: none;">
+
+                    <div class="mb-3">
+                        <label for="service-name" name="name" class="col-form-label col-sm-4">Nom</label>
+                        <input type="text" id="service-name" name="service_name" class="form-control" placeholder="Nom">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="service-description" class="col-form-label col-sm-4">Description</label>
+                        <textarea id="service-description" name="description" class="form-control" rows="5"></textarea>
+                    </div>
+
+                    <button type="submit" id="submit-service" class="btn btn-primary">Modifier</button>
+                    <a href="/back-office/admin" class="btn btn-danger">Annuler</a>
+
                 </div>
+
             </div>
         </div>
     </div>

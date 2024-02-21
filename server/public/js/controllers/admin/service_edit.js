@@ -30,11 +30,6 @@ async function Init() {
         const redirect = document.createElement("a");
         redirect.setAttribute("href", "/back-office/admin");
         redirect.click();
-
-        // log
-        // if(result) {
-        //     WindowClient.navigate("/back-office/admin");
-        // };
     });
 }
 

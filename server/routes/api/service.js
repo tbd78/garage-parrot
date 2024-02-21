@@ -13,14 +13,14 @@ const { z } = require("zod");
 // schema de validation à l'insertion
 const INSERT_SCHEMA_VALIDATOR = z.object({
     service_name: z.string().min(1).max(50),
-    description: z.string().max(50)
+    description: z.string()
 });
 
 // schema de validation à la mise à jour
 const UPDATE_SCHEMA_VALIDATOR = z.object({
     id: z.number().int(),
     service_name: z.string().min(1).max(50),
-    description: z.string().max(50)
+    description: z.string()
 });
 
 // insère un service
