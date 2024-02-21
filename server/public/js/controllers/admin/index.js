@@ -1,6 +1,6 @@
 'use strict';
 
-import { GetServices, PostService } from "../../interface/services.js";
+import { GetServices, PostService, DeleteService } from "../../interface/services.js";
 
 function CreateServiceElement({id, name, description}) {
     return (`
@@ -10,7 +10,7 @@ function CreateServiceElement({id, name, description}) {
         <p class="card-text">${description}</p>
     </div>
     <div class="card-footer d-flex justify-content-between">
-        <a href="#" class="btn btn-danger">Supprimer</a>
+        <a href="#" id="service-${id}" class="btn btn-danger">Supprimer</a>
         <a href="/back-office/admin/service-edit?id=${id}&name=${name}&description=${description}" class="btn btn-primary">Modifier</a>
     </div>
 </div>
@@ -26,7 +26,22 @@ async function Init() {
     const serviceElement = document.getElementById("services");
     for(const service of serviceList) {
         const newElement = CreateServiceElement({ id:service.id, name: service.service_name, description: service.description });
+        // document.createElement()
         serviceElement.innerHTML += newElement;
+    }
+
+    // connect click event for remove
+    for(const service of serviceList) {
+        serviceElement.querySelector(`#service-${service.id}`).addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const result = await DeleteService(service.id);
+
+            // redirect
+            const redirect = document.createElement("a");
+            redirect.setAttribute("href", "/back-office/admin");
+            redirect.click();
+        });
     }
 
     document.getElementById("add-user").addEventListener("click", async (e) => {
@@ -59,7 +74,7 @@ async function Init() {
 
         // redirection
         const redirect = document.createElement("a");
-        redirect.setAttribute("href", "/back-office/admin/");
+        redirect.setAttribute("href", "/back-office/admin");
         redirect.click();
     });
 }
