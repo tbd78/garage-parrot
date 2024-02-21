@@ -79,7 +79,8 @@
             </div>
 
             <div class="row" style="text-align: center">
-                <h1>Nos services</h1>
+                <h1 class="show-services">Nos services</h1>
+                <h1 class="show-new-service" style="display: none;">Nouveau service</h1>
             </div>
 
             <br />
@@ -87,9 +88,39 @@
             <!-- Services -->
             <div class="container">
 
-                <div id="services" style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: center;padding: 8px;">
+                <div class="show-new-service" style="width: 600px; margin: auto; display: none;">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nom</label>
+                        <input type="email" class="form-control" id="name" placeholder="Nom du service" maxlength="50" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" placeholder="Description service" rows="5"></textarea>
+                    </div>
+
+                    <a href="" class="btn btn-primary" id="new-service">Ajouter</a>
+                    <a href="/back-office/admin/" class="btn btn-danger">Annuler</a>
                 </div>
-                <a href="#" class="btn btn-secondary" style="position: fixed; right: 50px;bottom: 50px; width: 60px; height: 60px; border-radius: 100%;font-size: xx-large; text-align: center;display: flex;align-items: center;">+</a>
+
+                <div class="show-services" id="services" style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: center;padding: 8px;">
+                </div>
+                <a href="" class="btn btn-primary show-services" id="add-user"
+                    style="
+                        position: fixed;
+                        right: 50px;
+                        bottom: 50px;
+
+                        height: 80px;
+                        line-height: 65px;
+                        width: 80px;
+                        font-size: 4em;
+                        font-weight: bold;
+                        border-radius: 50%;
+                        padding: 0;
+                        color: white;
+                        text-align: center;
+                        cursor: pointer;"
+                >+</a>
             </div>
         </div>
     </div>
