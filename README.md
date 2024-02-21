@@ -101,3 +101,5 @@ Lancer le serveur en rentrant la commande suivante:
 $ npm run dev
 ```
 Se rendre à http://localhost:WEB_PORT
+
+NB: Se rendre à http://localhost:WEB_PORT/back-office/admin pour accéder à la page admin et  se rendre à http://localhost:WEB_PORT/back-office/employee pour accéder à la page employé

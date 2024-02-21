@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS user (
 CREATE TABLE IF NOT EXISTS services(
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `service_name` CHAR(50) UNIQUE,
-    `description` CHAR(50)
+    `description` TEXT
 );
 
 

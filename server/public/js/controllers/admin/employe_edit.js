@@ -43,7 +43,7 @@ async function Init() {
 
         const user = {};
         user.username = document.getElementById("username").value;
-        user.fisrtname = document.getElementById("first-name").value;
+        user.firstname = document.getElementById("first-name").value;
         user.lastname = document.getElementById("last-name").value;
         user.password = document.getElementById("password").value;
         user.role = "employee";
@@ -53,9 +53,9 @@ async function Init() {
         const result = await PostUser(user);
 
         // redirection
-        // const redirect = document.createElement("a");
-        // redirect.setAttribute("href", "/back-office/admin/employe-edit");
-        // redirect.click();
+        const redirect = document.createElement("a");
+        redirect.setAttribute("href", "/back-office/admin/employe-edit");
+        redirect.click();
     });
 }
 

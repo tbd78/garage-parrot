@@ -1,6 +1,6 @@
 'use strict';
 
-import { GetServices } from "../../interface/services.js";
+import { GetServices, PostService } from "../../interface/services.js";
 
 function CreateServiceElement({id, name, description}) {
     return (`
@@ -28,6 +28,41 @@ async function Init() {
         const newElement = CreateServiceElement({ id:service.id, name: service.service_name, description: service.description });
         serviceElement.innerHTML += newElement;
     }
+
+    document.getElementById("add-user").addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        // hide elements linked to employees visualization
+        for(let element of document.querySelectorAll(".show-services").values()) {
+            element.style.display = "none";
+        }
+
+        // show elements linked to new employee visualization
+        for(let element of document.querySelectorAll(".show-new-service").values()) {
+            element.style.display = "initial";
+        }
+    });
+
+    document.getElementById("new-service").addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        // new service to add to the database
+        const service = {
+            service_name:   document.getElementById("name").value,
+            description:    document.getElementById("description").value,
+        };
+
+        // log
+        console.log("about to add a new service:", service);
+
+        const result = await PostService(service);
+
+        // redirection
+        const redirect = document.createElement("a");
+        redirect.setAttribute("href", "/back-office/admin/");
+        redirect.click();
+    });
 }
 
+// Launch initialization
 Init();

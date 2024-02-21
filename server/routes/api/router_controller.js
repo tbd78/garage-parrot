@@ -19,9 +19,11 @@ exports.Insert = async (req, res, insertFn, validator = null) => {
             validator.parse(item);
         }
         const result = await insertFn(item);
+        console.debug("result insert", result);
         const status = (result) ? 200 : 400;
         res.status(status).json(ResponseMaker(result, result));
     } catch(err) {
+        console.debug("err req", err);
         res.status(400).json(ResponseMaker(false, err));
     }
 };
