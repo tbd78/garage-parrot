@@ -1,6 +1,6 @@
 'use strict';
 
-import { Get, Post } from "./helper.js";
+import { Get, Post, Delete } from "./helper.js";
 
 /**
  * Represents a user
@@ -26,4 +26,11 @@ export async function GetUsers() {
  */
 export async function PostUser(user) {
     return Post('/api/user', user);
+}
+
+/**
+ * @param {number} id
+ */
+export async function DeleteUser(id) {
+    return Delete(`/api/user/${id}`);
 }

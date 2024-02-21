@@ -1,15 +1,15 @@
 'use strict';
 
-import { GetUsers, PostUser } from "../../interface/user.js";
+import { GetUsers, PostUser, DeleteUser } from "../../interface/user.js";
 
-function CreateUserElement({firstName, lastName}) {
+function CreateUserElement({id, firstName, lastName}) {
     return (`
 <div class="card" style="width: 18rem; margin: 8px">
     <div class="card-body">
         <h5 class="card-title" style="text-align: center;">${firstName} ${lastName}</h5>
     </div>
     <div class="card-footer d-flex justify-content-between">
-        <a href="#" class="btn btn-danger">Supprimer</a>
+        <a href="#" id="user-${id}" class="btn btn-danger">Supprimer</a>
     </div>
 </div>
     `);
@@ -20,8 +20,22 @@ async function Init() {
 
     const userElement = document.getElementById("users");
     for(const user of userList) {
-        const newElement = CreateUserElement({ firstName: user.firstname, lastName: user.lastname });
+        const newElement = CreateUserElement({ id: user.id, firstName: user.firstname, lastName: user.lastname });
         userElement.innerHTML += newElement;
+    }
+
+    // connect click event for remove
+    for(const user of userList) {
+        userElement.querySelector(`#user-${user.id}`).addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const result = await DeleteUser(user.id);
+
+            // redirect
+            const redirect = document.createElement("a");
+            redirect.setAttribute("href", "/back-office/admin/employe-edit");
+            redirect.click();
+        });
     }
 
     document.getElementById("add-user").addEventListener("click", (e) => {
