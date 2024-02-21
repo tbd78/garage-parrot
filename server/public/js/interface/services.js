@@ -1,6 +1,6 @@
 'use strict';
 
-import { Get, Put, Post } from "./helper.js";
+import { Get, Put, Post, Delete } from "./helper.js";
 
 /**
  * Represents a Service
@@ -31,4 +31,11 @@ export async function PutService(service) {
  */
 export async function PostService(service) {
     return Post('/api/service', service);
+}
+
+/**
+ * @param {number} id
+ */
+export async function DeleteService(id) {
+    return Delete(`/api/service/${id}`);
 }
